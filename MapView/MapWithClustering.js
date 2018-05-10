@@ -121,6 +121,7 @@ export default class MapWithClustering extends Component {
       let zoom = this.getBoundsZoomLevel(bBox, { height: h(100), width: w(100) });
       const clusters = await this.superCluster.getClusters([bBox[0], bBox[1], bBox[2], bBox[3]], zoom);
 
+      this.props.onClustersChange && this.props.onClustersChange(clusters, this.superCluster); 
       clusteredMarkers = clusters.map(cluster => (<CustomMarker
         pointCount={cluster.properties.point_count}
         clusterId={cluster.properties.cluster_id}
@@ -176,6 +177,7 @@ MapWithClustering.propTypes = {
   clusterBorderWidth: PropTypes.number,
   clusterTextSize: PropTypes.number,
   onClusterPress: PropTypes.func,
+  onClustersChange: PropTypes.func,
 };
 
 const totalSize = num => (Math.sqrt((h(100) * h(100)) + (w(100) * w(100))) * num) / 100;
